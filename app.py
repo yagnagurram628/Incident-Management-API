@@ -1,10 +1,7 @@
 from flask import Flask, jsonify, request
 app = Flask(__name__)
 
-@app.route('/incidents', methods=['GET','POST'])
-def incidents():
-    if request.method == 'GET':
-        incident = [{
+incident = [{
             'id': 1,
             'title': "Payment",
             'severity': "HIGH"
@@ -19,11 +16,15 @@ def incidents():
             'title': "Backend",
             'severity': "LOW"
         }]
+
+@app.route('/incidents', methods=['GET','POST'])
+def incidents():
+    if request.method == 'GET':
+        return jsonify(incident)
     elif request.method == 'POST':
             data = request.json
+            incident.append(data)
             return jsonify(data)
-            
-    return jsonify(incident)
 
 if __name__=="__main__": 
     app.run(debug=True)

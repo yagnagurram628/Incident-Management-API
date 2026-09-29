@@ -22,10 +22,17 @@ def incidents():
     if request.method == 'GET':
         return jsonify(incident)
     elif request.method == 'POST':
-            data = request.json
-            data['id'] = len(incident) + 1
-            incident.append(data)
-            return jsonify(data) 
+        data = request.json
+        data['id'] = len(incident) + 1
+        incident.append(data)
+        return jsonify(data)
+
+@app.route('/incidents/<id>', methods = ['GET'])
+def idfetch(id):
+    id = int(id)
+    for i in incident:
+        if id == i['id']:
+            return jsonify(i)
 
 if __name__=="__main__": 
     app.run(debug=True)

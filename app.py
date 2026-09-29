@@ -33,6 +33,8 @@ def idfetch(id):
     for i in incident:
         if id == i['id']:
             return jsonify(i)
+        else:
+            return jsonify("ID doesn't exist"), 404
 
 if __name__=="__main__": 
     app.run(debug=True)

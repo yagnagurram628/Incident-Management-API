@@ -23,8 +23,9 @@ def incidents():
         return jsonify(incident)
     elif request.method == 'POST':
             data = request.json
+            data['id'] = len(incident) + 1
             incident.append(data)
-            return jsonify(data)
+            return jsonify(data) 
 
 if __name__=="__main__": 
     app.run(debug=True)

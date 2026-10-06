@@ -23,6 +23,11 @@ def incidents():
         return jsonify(incident)
     elif request.method == 'POST':
         data = request.json
+        if not validate(data):
+            return jsonify({
+                "message": "Invalid data"
+            }), 400
+    
         data['id'] = len(incident) + 1
         incident.append(data)
         return jsonify(data)
@@ -69,6 +74,17 @@ def delete(id):
         "error": "Incident not found"
     }
     return jsonify(error), 404
+
+def validate(data):
+    title = data.get('title')
+    severity = data.get('severity')
+    if title is None or title == "":
+        return False
+    if severity is None or severity == "":
+        return False
+    if severity not in ['LOW','MEDIUM','HIGH','CRITICAL']:
+        return False
+    return True
 
 if __name__=="__main__": 
     app.run(debug=True)

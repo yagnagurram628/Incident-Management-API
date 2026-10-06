@@ -48,6 +48,10 @@ def idfetch(id):
 def update(id):
     id=int(id)
     data = request.json
+    if not validate(data):
+        return jsonify({
+            "message": "Invalid data"
+        }), 400
     for i in incident:
         if id == i['id']:
             i['title'] = data['title']

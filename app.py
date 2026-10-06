@@ -33,11 +33,42 @@ def idfetch(id):
     for i in incident:
         if id == i['id']:
             return jsonify(i)
-        else:
-            error = {
-                "error": "Incident not found"
-            }
-            return jsonify(error), 404
+        
+    error = {
+        "error": "Incident not found"
+    }
+    return jsonify(error), 404
+
+@app.route('/incidents/<id>', methods = ['PUT'])
+def update(id):
+    id=int(id)
+    data = request.json
+    for i in incident:
+        if id == i['id']:
+            i['title'] = data['title']
+            i['severity'] = data['severity']
+            return jsonify(i)
+
+    error = {
+        "error": "Incident not found"
+    }
+    return jsonify(error), 404
+
+@app.route('/incidents/<id>', methods = ['DELETE'])
+def delete(id):
+    id=int(id)
+    for i in incident:
+        if id == i['id']:
+            index = incident.index(i)
+            incident.pop(index)
+            return jsonify({
+                "message": "Incident deleted successfully"
+            })
+
+    error = {
+        "error": "Incident not found"
+    }
+    return jsonify(error), 404
 
 if __name__=="__main__": 
     app.run(debug=True)
